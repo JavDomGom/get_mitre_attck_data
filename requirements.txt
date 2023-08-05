@@ -1,0 +1,2 @@
+pyattck~=7.1.2
+pandas~=1.5.1
