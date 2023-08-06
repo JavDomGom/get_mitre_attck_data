@@ -2,13 +2,13 @@
 Get MITRE ATT&CK tactics and techniques from internet and work with it as Pandas DataFrames.
 
 ## Dependencies
-To make the tool work, some dependencies need to be installed:
+Some dependencies need to be installed:
 
 ```bash
 ~$ python3 -m pip install -r requirements.txt
 ```
 
-## Configuración
+## Configuration
 It's possible to set some environment variables that allow configuring the log level, selecting the directory where logs are written, or their size and rotation. If no manual configuration is done, all values will be set to their default. For example:
 
 - The default log trace level is `INFO`, but you can select another level with the following command:

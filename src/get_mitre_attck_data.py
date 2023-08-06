@@ -74,6 +74,8 @@ class GetMitreAttckData:
         self.log.info('Download MITRE ATT&CK tactics from internet')
 
         tactics = self.attack.enterprise.tactics
+        tactics += self.attack.mobile.tactics
+        tactics += self.attack.ics.tactics
         tactics_list = []
 
         if tactics:
@@ -87,11 +89,11 @@ class GetMitreAttckData:
                         'type': tactic.type,
                         'created': self.format_datetime(tactic.created),
                         'modified': self.format_datetime(tactic.modified),
-                        'description': tactic.description.splitlines()[0],
+                        'description': tactic.description.strip() and tactic.description.splitlines()[0] or tactic.description,
                         'techniques': ', '.join(t.technique_id for t in tactic.techniques),
                         'revoked': tactic.revoked and 'Yes' or 'No',
                         'x_mitre_attack_spec_version': tactic.x_mitre_attack_spec_version,
-                        'x_mitre_deprecated': tactic.x_mitre_deprecated,
+                        'x_mitre_deprecated': tactic.x_mitre_deprecated and 'Yes' or 'No',
                         'x_mitre_domains': ', '.join(xmd for xmd in tactic.x_mitre_domains),
                         'x_mitre_shortname': tactic.x_mitre_shortname,
                         'x_mitre_version': tactic.x_mitre_version,
@@ -106,6 +108,8 @@ class GetMitreAttckData:
         self.log.info('Download MITRE ATT&CK techniques from internet')
 
         techniques = self.attack.enterprise.techniques
+        techniques += self.attack.mobile.techniques
+        techniques += self.attack.ics.techniques
         techniques_list = []
 
         if techniques:
@@ -115,10 +119,11 @@ class GetMitreAttckData:
                         'id': technique.id,
                         'technique_id': technique.technique_id,
                         'name': technique.name,
+                        'url': ', '.join(er.url for er in technique.external_references),
                         'type': technique.type,
                         'created': self.format_datetime(technique.created),
                         'modified': self.format_datetime(technique.modified),
-                        'description': technique.description.splitlines()[0],
+                        'description': technique.description.strip() and technique.description.splitlines()[0] or technique.description,
                         'kill_data_components': ', '.join(dc.name for dc in technique.data_components),
                         'kill_chain_phases': ', '.join(p.phase_name for p in technique.kill_chain_phases),
                         'malwares': ', '.join(mal.name for mal in technique.malwares),
